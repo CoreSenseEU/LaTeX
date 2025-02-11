@@ -1,2 +1,2 @@
-# LaTeX
-Macros for CORESENSE LaTeX documents
+# CORESENSE LaTeX
+LaTeX macros for CORESENSE documents.
