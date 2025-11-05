@@ -127,7 +127,7 @@
 \newcommand{\printreference}{\@reference\ v \@version}
 
                                     
-%% Title page ------------------------------------------------------
+%% Title ------------------------------------------------------
 
 \renewcommand\maketitle{\par
   \newpage
@@ -141,7 +141,7 @@
   \put(230,72){\parbox{8cm}{\hfill\Huge\bfseries\color{white}\displayfont \@reference}}
   \end{picture}
   \small {\href{http://www.coresense.eu}{\color{white}\@project}}\\[2cm]
-  {\huge \bfseries \displayfont \@title \par}%
+  {\parbox{\columnwidth}{\huge \bfseries \displayfont \raggedright \@title}\par}%
   {\ifx\@subtitle\@empty
    \else
       {\Large \@subtitle \par} 

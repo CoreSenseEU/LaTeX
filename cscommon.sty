@@ -13,8 +13,15 @@
 \usepackage{ragged2e}
 \usepackage{xifthen}
 \usepackage[most]{tcolorbox}
-\usepackage[no-math]{fontspec}
+%\usepackage[no-math]{fontspec}
 \usepackage{mathspec} % loads fontspec as well
+
+% undo the wrong changes made by mathspec to avoid error in glossaries
+\makeatletter 
+\let\RequirePackage\original@RequirePackage
+\let\usepackage\RequirePackage
+\makeatother
+
 \usepackage{fontawesome}
 \usepackage[font={small,it},labelfont=bf]{caption}
 \usepackage{graphicx} 
@@ -29,8 +36,11 @@
 \newcommand{\xie}{\emph{i.e.}}
 \newcommand{\xetc}{\emph{etc.}}
 \newcommand{\xeg}{\emph{e.g.}}
+\newcommand{\xcf}{\emph{cf.}}
 \newcommand{\CSP}{CORESENSE}
-\newcommand{\CS}{\textbf{CoreSense}}
+%\newcommand{\CS}{CoreSense}
+%\newcommand{\CS}{\textbf{CoreSense}}
+\newcommand{\CS}{\textsc{CoreSense}}
 
 %-- Figures ---------------------------------------------------------------
 
@@ -44,7 +54,7 @@
 
 \newcommand{\Figure}[5][ht!]{
 \begin{figure}[#1]\centering
-\includegraphics[width=#3]{#2}
+\includegraphics[width=#3]{#2}\\[2mm]
 \parbox{#3}{\caption{#4\label{#5}}}
 \end{figure}
 }
@@ -65,9 +75,9 @@
 \definecolor{CSLightOrange}{HTML}{FAD880}
 \definecolor{CSUltraLightOrange}{HTML}{FFEECC}
 \definecolor{CSLightMaroon}{HTML}{7744AA}
-\definecolor{CSUltraLightMaroon}{HTML}{CCAAFF}
+\definecolor{CSUltraLightMaroon}{HTML}{FCF6FF}
 \definecolor{CSLightGray}{HTML}{BBBBBB}
-\definecolor{CSUltraLightGray}{HTML}{EEEEEE}
+\definecolor{CSUltraLightGray}{HTML}{F0F0F0}
 
 \definecolor{URLcolor}{HTML}{006A63}
 
@@ -184,6 +194,13 @@
 %- Quotations -------------------------------------------------------------
 
 
+\newcommand{\quoteright}[1]{
+\begin{quotation}
+\hspace{4cm}\parbox{10.4cm}
+{\noindent\textit{\color{CSMaroon}\small#1}}
+\end{quotation}
+}
+
 \newcommand{\quotefront}[2]{
 \begin{quotation}
 \hspace{4cm}\parbox{10.4cm}
@@ -250,10 +267,14 @@
 %\setmonofont[Scale=MatchLowercase]{Fira Code}
 
 \setmainfont{Ubuntu Light}
+%\setmainfont{Charis SIL}
+%\setmainfont{Noto Serif}
+
 \setsansfont{Montserrat}
-% \setmonofont[Scale=1.1]{Ubuntu Mono}
-% \setmonofont{Ubuntu Mono}
-\setmonofont{Fira Code}
+
+\setmonofont[Scale=1.1]{Ubuntu Mono}
+%\setmonofont{Ubuntu Mono}
+%\setmonofont{Fira Code}
 
 \setmathrm{Ubuntu Light}
 \setmathfont(Digits,Latin){Ubuntu Light}
@@ -295,12 +316,12 @@
 
 
 \lstset{ 
-  backgroundcolor=\color{CSUltraLightGreen},   % choose the background color
-  basicstyle=\ttfamily\small,            % the size of the fonts that are used for the code
-%  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
-  breaklines=false,                 % sets automatic line breaking
-  captionpos=false,                  % sets the caption-position to top
-  commentstyle=\color{CSMaroon},     % comment style
+  backgroundcolor=\color{CSUltraLightGreen}, % choose the background color
+  basicstyle=\ttfamily\small,                % the size of the fonts that are used for the code
+%  breakatwhitespace=false,                  % sets if automatic breaks should only happen at whitespace
+  breaklines=false,                          % sets automatic line breaking
+  captionpos=false,                          % sets the caption-position to top
+  commentstyle=\color{CSMaroon},             % comment style
   deletekeywords={...},            % if you want to delete keywords from the given language
   extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
   firstnumber=10,                  % start line enumeration with line 1000
@@ -321,6 +342,37 @@
   tabsize=4,	                      % sets default tabsize to 4 spaces
   title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
 }
+
+
+\lstdefinestyle{default}{ 
+  backgroundcolor=\color{CSUltraLightGreen}, % choose the background color
+  basicstyle=\ttfamily\small,                % the size of the fonts that are used for the code
+%  breakatwhitespace=false,                  % sets if automatic breaks should only happen at whitespace
+  breaklines=false,                          % sets automatic line breaking
+  captionpos=false,                          % sets the caption-position to top
+  commentstyle=\color{CSMaroon},             % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  firstnumber=10,                  % start line enumeration with line 1000
+  frame=none, 	                 % remove frame around the code. Use "single" for simple border
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code
+  keywordstyle=\color{CSRed},       % keyword style
+  language=Python,                 % the language of the code
+  morekeywords={*,...},            % if you want to add more keywords to the set
+  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  numbersep=5pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{CSGray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{CSGreen},  % string literal style
+  tabsize=4,	                      % sets default tabsize to 4 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.3,0.3,0.3}
@@ -396,7 +448,61 @@
   stringstyle = \color{purple}
 }
 
+\lstdefinelanguage{SysMLv2}{
+keywords={
+about, abstract, accept, action, actor, after, alias, all, allocate, allocation, analysis, and, as, assign, assert, assoc, assume, at, attribute, bind, binding, block, by, calc, case, comment, concern, connect, connection, constraint, crosses, decide, def, default, defined, dependency, derived, do, doc, else, end, entry, enum, event, exhibit, exit, expose, filter, first, flow, for, fork, frame, from, hastype, if, implies, import, in, include, individual, inout, interface, istype, item, join, language, loop, merge, message, metadata, nonunique, not, objective, occurrence, of, or, ordered, out, package, parallel, part, perform, port, private, protected, public, readonly, redefines, ref, references, render, rendering, rep, require, requirement, return, satisfy, send, snapshot, specializes, stakeholder, state, subject, subsets, succession, terminate, then, timeslice, to, transition, until, use, variant, variation, verification, verify, via, view, viewpoint, when, while, xor},
+morekeywords = [1]{ 
+AcceptActionUsage, ActionDefinition, ActionUsage, ActorMembership, AllocationDefinition, AllocationUsage,
+AnalysisCaseDefinition, AnalysisCaseUsage, AnnotatingElement, Annotation, AssertConstraintUsage,
+AssignmentActionUsage, Association, AssociationStructure, AttributeDefinition, AttributeUsage, Behavior, BindingConnector,
+BindingConnectorAsUsage, BooleanExpression, CalculationDefinition, CalculationUsage, CaseDefinition, CaseUsage,
+Class, Classifier, CollectExpression, Comment, ConcernDefinition, ConcernUsage, ConjugatedPortDefinition,
+ConjugatedPortTyping, Conjugation, ConnectionDefinition, ConnectionUsage, Connector, ConnectorAsUsage,
+ConstraintDefinition, ConstraintUsage, ControlNode, DataType, DecisionNode, Definition, Dependency, Differencing,
+Disjoining, Documentation, Element, ElementFilterMembership, EndFeatureMembership, EnumerationDefinition,
+EnumerationUsage, EventOccurrenceUsage, ExhibitStateUsage, Expose, Expression, Feature, FeatureChainExpression,
+FeatureChaining, FeatureDirectionKind, FeatureInverting, FeatureMembership, FeatureReferenceExpression, FeatureTyping,
+FeatureValue, Featuring, FlowConnectionDefinition, FlowConnectionUsage, ForkNode, ForLoopActionUsage,
+FramedConcernMembership, Function, IfActionUsage, Import, IncludeUseCaseUsage, Interaction, InterfaceDefinition,
+InterfaceUsage, Intersecting, Invariant, InvocationExpression, ItemDefinition, ItemFeature, ItemFlow, ItemFlowEnd, ItemUsage,
+JoinNode, LibraryPackage, LifeClass, LiteralBoolean, LiteralExpression, LiteralInfinity, LiteralInteger, LiteralRational,
+LiteralString, LoopActionUsage, Membership, MembershipExpose, MembershipImport, MergeNode, Metaclass,
+MetadataAccessExpression, MetadataDefinition, MetadataFeature, MetadataUsage, Multiplicity, MultiplicityRange,
+Namespace, NamespaceExpose, NamespaceImport, NullExpression, ObjectiveMembership, OccurrenceDefinition,
+OccurrenceUsage, OperatorExpression, OwningMembership, Package, ParameterMembership, PartDefinition, PartUsage,
+PerformActionUsage, PortConjugation, PortDefinition, PortionKind, PortUsage, Predicate, Redefinition, ReferenceSubsetting,
+ReferenceUsage, Relationship, RenderingDefinition, RenderingUsage, RequirementConstraintKind,
+RequirementConstraintMembership, RequirementDefinition, RequirementUsage, RequirementVerificationMembership,
+ResultExpressionMembership, ReturnParameterMembership, SatisfyRequirementUsage, SelectExpression,
+SendActionUsage, Specialization, StakeholderMembership, StateDefinition, StateSubactionKind,
+StateSubactionMembership, StateUsage, Step, Structure, Subclassification, SubjectMembership, Subsetting, Succession,
+SuccessionAsUsage, SuccessionFlowConnectionUsage, SuccessionItemFlow, TextualRepresentation,
+TransitionFeatureKind, TransitionFeatureMembership, TransitionUsage, TriggerInvocationExpression, TriggerKind, Type,
+TypeFeaturing, Unioning, Usage, UseCaseDefinition, UseCaseUsage, VariantMembership, VerificationCaseDefinition,
+VerificationCaseUsage, ViewDefinition, ViewpointDefinition, ViewpointUsage, ViewRenderingMembership, ViewUsage,
+VisibilityKind, WhileLoopActionUsage},
+% Library elements
+morekeywords = [2]{Anything, SysML, KerML, AttributeValue, attributeValues, Occurrence, occurrences, Occurrences::happensBeforeLinks, Item, items, Part, parts, Port, ports, Connection, connections, BinaryConnection, binaryConnections, Links::SelfLink, Interface, interfaces, BinaryInterface, binaryInterfaces, Allocation, allocations, MessageAction, messages, Flows::Flow, Flows::flows, SuccessionFlowConnection, Flows::successionFlows, Action, actions, ControlAction, Actions::Action::controls, DecisionTransitionAction, Actions::Action::decisionTransitions, SendAction, AcceptAction, AssignmentAction, TerminateAction, IfThenAction, IfThenElseAction, LoopAction, WhileLoopAction, ForLoopAction, StateAction, stateActions, StateTransitionAction, Calculation, calculations, Constraint, ConstraintCheck, assertedConstraintChecks, negatedConstraintChecks, RequirementCheck, requirementChecks, ConcernCheck, concernChecks, Case, cases, AnalysisCase, analysisCases, VerificationCase, verificationCases, UseCase, useCases, UseCases::UseCase::includedUseCases, View, views, Viewpoint, viewpoints, Rendering, renderings, 
+MetadataItem, metadataItems, SemanticMetadata},
+ sensitive=true,
+ comment=[l]{//},
+ morecomment=[s]{/*}{*/},
+ morestring=[b]",
+ morestring=[b]',
+ keywordstyle=\color{red}\bfseries,
+  keywordstyle = [1]\color{CSGreen},
+  keywordstyle = [2]\color{CSRed},
+%  keywordstyle = [3]\color{CSMaroon},
+%  keywordstyle = [4]\color{CSOrange}, 
+ commentstyle=\color{gray}\itshape,
+ stringstyle=\color{blue},
+ backgroundcolor=\color{CSUltraLightGray}, % choose the background color
+ basicstyle=\ttfamily\footnotesize,
+ breaklines=true,
+ showstringspaces=false
+}
 
+ 
 
 
 
